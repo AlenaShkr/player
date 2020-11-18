@@ -22,3 +22,23 @@ body {
     display: none;
 }
 
+.list-songs {
+    margin-top: 2rem;
+    background-color: gray;
+    list-style-type: none;
+    padding: 10px 0px;
+    font-size: 22px;
+}
+.song-item {
+    background-color: rgb(212, 209, 209);
+    padding: 10px;
+    text-decoration: underline rgb(173, 201, 201);
+    cursor: pointer;
+}
+
+.song-item:hover {
+    background-color:  rgb(175, 176, 177);;
+}
+.song::before {
+    content: ' - ';
+}
