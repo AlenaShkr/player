@@ -20,7 +20,6 @@ window.onload = function load() {
   context.rotate(3.14);
   context.drawImage(img, -10, 0, 50, 180);
   
-  //context.restore();
   //canvas.addEventListener('click', () => window.console.log('click!'));
   const audio = document.querySelector('.control');
   const listOfSongs = document.querySelector('.list-songs');
@@ -38,9 +37,11 @@ window.onload = function load() {
       imgDisk.src = 'assets/1.png';
       
       context.drawImage(imgDisk, 2, 10, 270, 270);
+      context.save();
       context.translate(canvas.clientWidth+10, 200);
       context.rotate(3.3);
       context.drawImage(img, 25, 0, 50, 180);
+      context.restore();
     }
   });
 };
