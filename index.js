@@ -29,6 +29,7 @@ function drawCircleText(context, text, radius, startRotation) {
 }
 
 window.onload = function load() {
+
   const canvas = document.querySelector('.canvas');
   const context = canvas.getContext('2d');
   context.save();
@@ -48,6 +49,12 @@ window.onload = function load() {
       titleSong = audioSource;
       audio.onloadedmetadata = function() {
                 console.log(this.duration);
+                let durationInMinutes = `  ${Math.trunc(this.duration / 60)}:${Math.floor(this.duration % 60, 2)}`; 
+                titleSong += durationInMinutes;
+                context.fillStyle = 'silver';
+
+                context.font = "bold 10px Courier";
+                drawCircleText(context, titleSong, 30, 10);
             };
       audio.autoplay = true;
       context.restore();
@@ -56,10 +63,10 @@ window.onload = function load() {
       const imgDisk = new Image();
       imgDisk.src = 'assets/1.png';
       context.drawImage(imgDisk, 2, 10, 270, 270);
-      context.fillStyle = 'silver';
+      // context.fillStyle = 'silver';
 
-      context.font = "bold 10px Courier";
-      drawCircleText(context, titleSong, 30, 10);
+      // context.font = "bold 10px Courier";
+      // drawCircleText(context, titleSong, 30, 10);
       context.save();
       context.translate(canvas.clientWidth, 0);
       context.rotate(0.1);
