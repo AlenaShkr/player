@@ -10,6 +10,24 @@ function handlerChoiceSong(event) {
   return url;
 }
 
+function drawCircleText(context, text, radius, startRotation) {
+  let numRadsPerLetter = 2*Math.PI / text.length;
+   context.save();
+   const x = context.canvas.width/2 - 14;
+   const y = context.canvas.height/2 - 7;
+   context.translate(x,y);
+   context.rotate(startRotation);
+
+   for(let i = 0; i < text.length; i++){
+      context.save();
+      context.rotate(i * numRadsPerLetter);
+
+      context.fillText(text[i], 0, -radius);
+      context.restore();
+   }
+   context.restore();
+}
+
 window.onload = function load() {
   const canvas = document.querySelector('.canvas');
   const context = canvas.getContext('2d');
@@ -25,7 +43,9 @@ window.onload = function load() {
   listOfSongs.addEventListener('click', ev => {
     if(ev.target === 'song' || 'singer' || 'song-item') {
       let audioSource = handlerChoiceSong(ev);
+      let titleSong = '';
       audio.src=audioSource;
+      titleSong = audioSource;
       audio.onloadedmetadata = function() {
                 console.log(this.duration);
             };
@@ -36,6 +56,10 @@ window.onload = function load() {
       const imgDisk = new Image();
       imgDisk.src = 'assets/1.png';
       context.drawImage(imgDisk, 2, 10, 270, 270);
+      context.fillStyle = 'silver';
+
+      context.font = "bold 10px Courier";
+      drawCircleText(context, titleSong, 30, 10);
       context.save();
       context.translate(canvas.clientWidth, 0);
       context.rotate(0.1);
