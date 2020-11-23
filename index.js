@@ -1,13 +1,21 @@
 function handlerChoiceSong(event) {
-  let url; 
+  const data = {
+    'url': '',
+    'artist' : '',
+    'song': ''
+  };
   if (event.target.className === 'song' || 'singer') {
+    data.url = event.target.parentNode.dataset.url;
+    data.artist = event.target.parentNode.querySelector('.singer').textContent.trim();
+    data.song = event.target.parentNode.querySelector('.song').textContent.trim();
 
-    url = event.target.parentNode.dataset.url;
   }
   if (event.target.className === 'song-item') {
-    url = event.target.dataset.url;
+    data.url = event.target.dataset.url;
+    data.artist = event.target.querySelector('.singer').textContent.trim();
+    data.song = event.target.querySelector('.song').textContent.trim();
   }
-  return url;
+  return data;
 }
 
 function drawCircleText(context, text, radius, startRotation) {
@@ -27,9 +35,13 @@ function drawCircleText(context, text, radius, startRotation) {
    }
    context.restore();
 }
+async function fetchAsync () {
+  const response = await fetch('./assets/data/data.json');
+  return  await response.json();
+}
 
 window.onload = function load() {
-
+  
   const canvas = document.querySelector('.canvas');
   const context = canvas.getContext('2d');
   context.save();
@@ -43,13 +55,13 @@ window.onload = function load() {
   const listOfSongs = document.querySelector('.list-songs');
   listOfSongs.addEventListener('click', ev => {
     if(ev.target === 'song' || 'singer' || 'song-item') {
-      let audioSource = handlerChoiceSong(ev);
-      let titleSong = '';
-      audio.src=audioSource;
-      titleSong = audioSource;
+      let {url, artist, song} = handlerChoiceSong(ev);
+      let titleSong = `${artist} - ${song}`;
+      audio.src = url;
+      
       audio.onloadedmetadata = function() {
                 console.log(this.duration);
-                let durationInMinutes = `  ${Math.trunc(this.duration / 60)}:${Math.floor(this.duration % 60, 2)}`; 
+                let durationInMinutes = ` ${Math.trunc(this.duration / 60)}:${Math.floor(this.duration % 60, 2)}  `; 
                 titleSong += durationInMinutes;
                 context.fillStyle = 'silver';
 
@@ -63,10 +75,7 @@ window.onload = function load() {
       const imgDisk = new Image();
       imgDisk.src = 'assets/1.png';
       context.drawImage(imgDisk, 2, 10, 270, 270);
-      // context.fillStyle = 'silver';
-
-      // context.font = "bold 10px Courier";
-      // drawCircleText(context, titleSong, 30, 10);
+      
       context.save();
       context.translate(canvas.clientWidth, 0);
       context.rotate(0.1);
