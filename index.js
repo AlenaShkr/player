@@ -87,8 +87,6 @@ window.onload = function load() {
                 context.font = "bold 10px Courier";
                 drawCircleText(context, titleSong, 30, 10);
             };
-      
-      //audio.autoplay = true;
       context.restore();
       context.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
       
@@ -98,8 +96,10 @@ window.onload = function load() {
       
       context.save();
       context.translate(canvas.clientWidth, 0);
-      context.rotate(0.1);
+      context.rotate(0);
       context.drawImage(img, -42, 20, 50, 180);
+      
+      
       // context.rotate(0.5); max angle
       // context.drawImage(img, -28, 25, 50, 180);
       context.restore();
@@ -108,6 +108,18 @@ window.onload = function load() {
       let isFirstClick = true;
       buttonPlay.addEventListener('click', (ev) => { 
         if(isFirstClick) {
+          context.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+      
+     
+      context.drawImage(imgDisk, 2, 10, 270, 270);
+      drawCircleText(context, titleSong, 30, 10);
+      context.save();
+      context.translate(canvas.clientWidth, 0);
+      
+      context.rotate(0.1);
+      context.drawImage(img, -42, 20, 50, 180);
+      
+      context.restore();
           audio.play();
         } else audio.pause();
 
@@ -116,6 +128,17 @@ window.onload = function load() {
      buttonStop.addEventListener('click', () => {
       audio.pause(); 
       audio.currentTime = 0;
+      context.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+      
+     
+      context.drawImage(imgDisk, 2, 10, 270, 270);
+      drawCircleText(context, titleSong, 30, 10);
+      context.save();
+      context.translate(canvas.clientWidth, 0);
+      
+      context.rotate(0);
+      context.drawImage(img, -42, 20, 50, 180);
+      context.restore();
     });
     }
   });
