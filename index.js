@@ -104,6 +104,7 @@ window.onload = function load() {
       // context.drawImage(img, -28, 25, 50, 180);
       context.restore();
       const buttonPlay = document.querySelector('.button-play');
+      const buttonStop = document.querySelector('.button-stop');
       let isFirstClick = true;
       buttonPlay.addEventListener('click', (ev) => { 
         if(isFirstClick) {
@@ -112,6 +113,10 @@ window.onload = function load() {
 
         isFirstClick = !isFirstClick;
      });
+     buttonStop.addEventListener('click', () => {
+      audio.pause(); 
+      audio.currentTime = 0;
+    });
     }
   });
 };
