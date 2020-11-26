@@ -15,7 +15,6 @@ function handlerChoiceSong(event) {
     data.artist = event.target.querySelector('.singer').textContent.trim();
     data.song = event.target.querySelector('.song').textContent.trim();
   }
-  console.log(data);
   return data;
 }
 
@@ -88,7 +87,8 @@ window.onload = function load() {
                 context.font = "bold 10px Courier";
                 drawCircleText(context, titleSong, 30, 10);
             };
-      audio.autoplay = true;
+      
+      //audio.autoplay = true;
       context.restore();
       context.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
       
@@ -103,7 +103,15 @@ window.onload = function load() {
       // context.rotate(0.5); max angle
       // context.drawImage(img, -28, 25, 50, 180);
       context.restore();
+      const buttonPlay = document.querySelector('.button-play');
+      let isFirstClick = true;
+      buttonPlay.addEventListener('click', (ev) => { 
+        if(isFirstClick) {
+          audio.play();
+        } else audio.pause();
 
+        isFirstClick = !isFirstClick;
+     });
     }
   });
 };
