@@ -2,11 +2,11 @@
     {
         "artist": "Morcheeba",
         "song": "Under me now",
-        "source": "./assets/data/Undress Me Now.mp3"
+        "url": "./assets/data/Undress Me Now.mp3"
     },
     {
         "artist": "Coldplay",
         "song": "Trouble",
-        "source": "./assets/data/Coldplay - Trouble.mp3"
+        "url": "./assets/data/Coldplay - Trouble.mp3"
     }
 ]

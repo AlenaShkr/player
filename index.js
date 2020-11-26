@@ -15,6 +15,7 @@ function handlerChoiceSong(event) {
     data.artist = event.target.querySelector('.singer').textContent.trim();
     data.song = event.target.querySelector('.song').textContent.trim();
   }
+  console.log(data);
   return data;
 }
 
@@ -35,13 +36,32 @@ function drawCircleText(context, text, radius, startRotation) {
    }
    context.restore();
 }
+function buildPlaylist(jsonValue) {
+  const value = jsonValue;
+  const playlist = document.querySelector('.list-songs');
+  value.forEach(element => {
+    const itemList = document.createElement('li');
+    itemList.setAttribute('data-url', `${ element.url }`);
+    itemList.className = 'song-item';
+    const singerName = document.createElement('span');
+    singerName.className = 'singer';
+    singerName.textContent = element.artist;
+    itemList.appendChild(singerName);
+    const songName = document.createElement('span');
+    songName.className = 'song';
+    songName.textContent = element.song;
+    itemList.appendChild(songName);
+    playlist.appendChild(itemList);  
+  });
+
+}
 async function fetchAsync () {
   const response = await fetch('./assets/data/data.json');
-  return  await response.json();
+  buildPlaylist(await response.json());
 }
 
 window.onload = function load() {
-  
+  fetchAsync();
   const canvas = document.querySelector('.canvas');
   const context = canvas.getContext('2d');
   context.save();
