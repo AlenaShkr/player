@@ -54,13 +54,13 @@ function buildPlaylist(jsonValue) {
   });
 
 }
-async function fetchAsync () {
+async function fetchData () {
   const response = await fetch('./assets/data/data.json');
   buildPlaylist(await response.json());
 }
 
 window.onload = function load() {
-  fetchAsync();
+  fetchData();
   const canvas = document.querySelector('.canvas');
   const context = canvas.getContext('2d');
   context.save();
@@ -69,7 +69,7 @@ window.onload = function load() {
   context.translate(canvas.width, 0);
   context.rotate(0);
   context.drawImage(img, -42, 20, 50, 180);
-  //canvas.addEventListener('click', () => window.console.log('click!'));
+
   const audio = document.querySelector('.control');
   const listOfSongs = document.querySelector('.list-songs');
   listOfSongs.addEventListener('click', ev => {
@@ -82,26 +82,24 @@ window.onload = function load() {
                 console.log(this.duration);
                 let durationInMinutes = ` ${Math.trunc(this.duration / 60)}:${Math.floor(this.duration % 60, 2)}  `; 
                 titleSong += durationInMinutes;
+                context.globalCompositeOperation = 'source-over';
                 context.fillStyle = 'silver';
 
                 context.font = "bold 10px Courier";
                 drawCircleText(context, titleSong, 30, 10);
             };
       context.restore();
-      context.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
-      
+      context.globalCompositeOperation = 'destination-over';
       const imgDisk = new Image();
       imgDisk.src = 'assets/1.png';
       context.drawImage(imgDisk, 2, 10, 270, 270);
-      
       context.save();
-      context.translate(canvas.clientWidth, 0);
-      context.rotate(0);
-      context.drawImage(img, -42, 20, 50, 180);
-      
-      
+
+      // context.translate(canvas.clientWidth, 0);
+      // context.rotate(0);
+      // context.drawImage(img, -42, 20, 50, 180);
       // context.rotate(0.5); max angle
-      // context.drawImage(img, -28, 25, 50, 180);
+      // context.drawImage(img, -28, 25, 50, 180); 
       context.restore();
       const buttonPlay = document.querySelector('.button-play');
       const buttonStop = document.querySelector('.button-stop');
@@ -109,33 +107,44 @@ window.onload = function load() {
       buttonPlay.addEventListener('click', (ev) => { 
         if(isFirstClick) {
           context.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
-      
-     
-      context.drawImage(imgDisk, 2, 10, 270, 270);
-      drawCircleText(context, titleSong, 30, 10);
-      context.save();
-      context.translate(canvas.clientWidth, 0);
-      
-      context.rotate(0.1);
-      context.drawImage(img, -42, 20, 50, 180);
-      
-      context.restore();
-          audio.play();
-        } else audio.pause();
+          context.drawImage(imgDisk, 2, 10, 270, 270);
+          drawCircleText(context, titleSong, 30, 10);
+          context.save();
+          context.translate(canvas.clientWidth, 0);
+          context.rotate(0.1);
+          context.drawImage(img, -42, 20, 50, 180);
+          context.restore();
+          // setTimeout(() => {
+          //   context.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+          //   context.drawImage(imgDisk, 2, 10, 270, 270);
+          //   drawCircleText(context, titleSong, 30, 15);
+          //   context.save();
+          //   context.translate(canvas.clientWidth, 0);
+          //   context.rotate(0.2);
+          //   context.drawImage(img, -42, 20, 50, 180);
+          //   context.restore();
+          // }, 2000);
+              audio.play();
+              let lastCurrentTime; 
+              let change = setTimeout(function tick(){
+                console.log(audio.currentTime);
+                if((audio.currentTime !== 0) & (lastCurrentTime !==  audio.currentTime)) {
+                  change = setTimeout(tick, 1000); 
+                  lastCurrentTime = audio.currentTime; 
+                } else clearTimeout(change);
+              }, 1000);
+            } else audio.pause();
 
-        isFirstClick = !isFirstClick;
-     });
-     buttonStop.addEventListener('click', () => {
+            isFirstClick = !isFirstClick;
+        });
+      buttonStop.addEventListener('click', () => {
       audio.pause(); 
       audio.currentTime = 0;
       context.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
-      
-     
       context.drawImage(imgDisk, 2, 10, 270, 270);
       drawCircleText(context, titleSong, 30, 10);
       context.save();
       context.translate(canvas.clientWidth, 0);
-      
       context.rotate(0);
       context.drawImage(img, -42, 20, 50, 180);
       context.restore();
