@@ -124,41 +124,33 @@ window.onload = function load() {
           context.rotate(0.1);
           context.drawImage(img, -42, 20, 50, 180);
           context.restore();
-          // setTimeout(() => {
-          //   context.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
-          //   context.drawImage(imgDisk, 2, 10, 270, 270);
-          //   drawCircleText(context, titleSong, 30, 15);
-          //   context.save();
-          //   context.translate(canvas.clientWidth, 0);
-          //   context.rotate(0.2);
-          //   context.drawImage(img, -42, 20, 50, 180);
-          //   context.restore();
-          // }, 2000);
-              audio.play();
-              let count = 1; 
-              let lastCurrentTime;
-              let change = setTimeout(function tick(){
-                if((audio.currentTime !== 0) & (lastCurrentTime !==  audio.currentTime)) {
-                  context.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
-                  context.drawImage(imgDisk, 2, 10, 270, 270);
-                  drawCircleText(context, titleSong, 30, count * 0.08);
-                  context.save();
-                  context.translate(canvas.clientWidth, 0);
-                  context.rotate(0.1);
-                  context.drawImage(img, -42, 20, 50, 180);
-                  context.restore();
-                  count++;
-                  change = setTimeout(tick, 1000); 
-                  lastCurrentTime = audio.currentTime; 
-                } else clearTimeout(change);
-              }, 1000);
-            } else audio.pause();
+          
+          audio.play();
+          let count = 1; 
+          let lastCurrentTime;
+          let change = setTimeout(function tick(){
+            if((audio.currentTime !== 0) & (lastCurrentTime !==  audio.currentTime)) {
+              context.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+              context.drawImage(imgDisk, 2, 10, 270, 270);
+              drawCircleText(context, titleSong, 30, 10 + count * 0.08);
+              context.save();
+              context.translate(canvas.clientWidth, 0);
+              context.rotate(0.1);
+              context.drawImage(img, -42, 20, 50, 180);
+              context.restore();
+              count++;
+              change = setTimeout(tick, 1000); 
+              lastCurrentTime = audio.currentTime; 
+            } else clearTimeout(change);
+          }, 1000);
+        } else audio.pause();
 
             isFirstClick = !isFirstClick;
         });
       buttonStop.addEventListener('click', () => {
       audio.pause(); 
       audio.currentTime = 0;
+      isFirstClick = true;
       context.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
       context.drawImage(imgDisk, 2, 10, 270, 270);
       drawCircleText(context, titleSong, 30, 10);
