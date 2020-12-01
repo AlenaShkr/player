@@ -59,6 +59,14 @@ async function fetchData () {
   buildPlaylist(await response.json());
 }
 
+function defineCoordinate() {
+  const x = window.event.layerX;
+  const y = window.event.layerY;
+  return `${x}:${y}`;
+}
+function handlerDefineCurrentTimeSong() {
+  console.log(defineCoordinate());
+}
 window.onload = function load() {
   fetchData();
   const canvas = document.querySelector('.canvas');
@@ -104,11 +112,13 @@ window.onload = function load() {
       const buttonPlay = document.querySelector('.button-play');
       const buttonStop = document.querySelector('.button-stop');
       let isFirstClick = true;
+      canvas.addEventListener('click', handlerDefineCurrentTimeSong);
       buttonPlay.addEventListener('click', (ev) => { 
         if(isFirstClick) {
           context.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
           context.drawImage(imgDisk, 2, 10, 270, 270);
           drawCircleText(context, titleSong, 30, 10);
+
           context.save();
           context.translate(canvas.clientWidth, 0);
           context.rotate(0.1);
@@ -125,10 +135,19 @@ window.onload = function load() {
           //   context.restore();
           // }, 2000);
               audio.play();
-              let lastCurrentTime; 
+              let count = 1; 
+              let lastCurrentTime;
               let change = setTimeout(function tick(){
-                console.log(audio.currentTime);
                 if((audio.currentTime !== 0) & (lastCurrentTime !==  audio.currentTime)) {
+                  context.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+                  context.drawImage(imgDisk, 2, 10, 270, 270);
+                  drawCircleText(context, titleSong, 30, count * 0.08);
+                  context.save();
+                  context.translate(canvas.clientWidth, 0);
+                  context.rotate(0.1);
+                  context.drawImage(img, -42, 20, 50, 180);
+                  context.restore();
+                  count++;
                   change = setTimeout(tick, 1000); 
                   lastCurrentTime = audio.currentTime; 
                 } else clearTimeout(change);
