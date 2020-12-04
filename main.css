@@ -35,6 +35,20 @@ body {
     background-position: 100%;
     background-size: cover;
 }
+.timer {
+    width: 4rem;
+    height: 2rem;
+    margin-bottom: 15px;
+    background-color: black;
+    border-radius: 5px;
+    color: chartreuse;
+    text-align: center;
+}
+
+.duration::before {
+    content: '/';
+}
+
 .button-play,
 .button-stop {
     margin-bottom: 15px;
