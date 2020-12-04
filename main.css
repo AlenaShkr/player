@@ -13,10 +13,31 @@ body {
     align-items: center;
 }
 
+.player {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+
+}
+
 .canvas {
-   width: 100%;
    background-image: url('assets/Base.png'); 
    background-size: cover;
+}
+
+.aside {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 0.5rem;
+    background-image: url('assets/Base.png'); 
+    background-position: 100%;
+    background-size: cover;
+}
+.button-play,
+.button-stop {
+    margin-bottom: 15px;
 }
 .img {
     display: none;
