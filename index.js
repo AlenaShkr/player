@@ -80,6 +80,8 @@ window.onload = function load() {
 
   const audio = document.querySelector('.control');
   const listOfSongs = document.querySelector('.list-songs');
+  const duration = document.querySelector('.duration');
+  const currentTimeIndication = document.querySelector('.current-time');
   listOfSongs.addEventListener('click', ev => {
     if(ev.target === 'song' || 'singer' || 'song-item') {
       let {url, artist, song} = handlerChoiceSong(ev);
@@ -95,6 +97,7 @@ window.onload = function load() {
 
                 context.font = "bold 10px Courier";
                 drawCircleText(context, titleSong, 30, 10);
+                duration.textContent = durationInMinutes;
             };
       context.restore();
       context.globalCompositeOperation = 'destination-over';
@@ -102,6 +105,7 @@ window.onload = function load() {
       imgDisk.src = 'assets/1.png';
       context.drawImage(imgDisk, 2, 10, 270, 270);
       context.save();
+      
 
       // context.translate(canvas.clientWidth, 0);
       // context.rotate(0);
@@ -132,6 +136,7 @@ window.onload = function load() {
           let change = setTimeout(function tick(){
             if((audio.currentTime !== 0) & (lastCurrentTime !==  audio.currentTime)) {
               context.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+              currentTimeIndication.textContent = ` ${Math.trunc(audio.currentTime / 60)}:${Math.floor(audio.currentTime % 60, 2)}`;
               context.drawImage(imgDisk, 2, 10, 270, 270);
               drawCircleText(context, titleSong, 30, 10 + count * 0.08);
               context.save();

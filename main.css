@@ -43,6 +43,7 @@ body {
     border-radius: 5px;
     color: chartreuse;
     text-align: center;
+    font-size: 12px;
 }
 
 .duration::before {
