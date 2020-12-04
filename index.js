@@ -74,9 +74,9 @@ window.onload = function load() {
   context.save();
   const img = new Image();
   img.src = 'assets/3.png';
-  context.translate(canvas.width, 0);
+  //context.translate(canvas.width, 0);
   context.rotate(0);
-  context.drawImage(img, -42, 20, 50, 180);
+  context.drawImage(img, canvas.width - 42, 20, 50, 180);
 
   const audio = document.querySelector('.control');
   const listOfSongs = document.querySelector('.list-songs');
@@ -120,13 +120,14 @@ window.onload = function load() {
           drawCircleText(context, titleSong, 30, 10);
 
           context.save();
-          context.translate(canvas.clientWidth, 0);
+          context.translate(canvas.clientWidth-42, 20);
           context.rotate(0.1);
-          context.drawImage(img, -42, 20, 50, 180);
+          context.drawImage(img, 0, 0, 50, 180);
           context.restore();
           
           audio.play();
           let count = 1; 
+          let angle = 0.1;
           let lastCurrentTime;
           let change = setTimeout(function tick(){
             if((audio.currentTime !== 0) & (lastCurrentTime !==  audio.currentTime)) {
@@ -134,11 +135,12 @@ window.onload = function load() {
               context.drawImage(imgDisk, 2, 10, 270, 270);
               drawCircleText(context, titleSong, 30, 10 + count * 0.08);
               context.save();
-              context.translate(canvas.clientWidth, 0);
-              context.rotate(0.1);
-              context.drawImage(img, -42, 20, 50, 180);
+              context.translate(canvas.clientWidth-42, 20);
+              context.rotate(angle);
+              context.drawImage(img, 0, 0, 50, 180);
               context.restore();
               count++;
+              angle += 0.4/audio.duration;
               change = setTimeout(tick, 1000); 
               lastCurrentTime = audio.currentTime; 
             } else clearTimeout(change);
