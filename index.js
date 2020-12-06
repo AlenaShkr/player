@@ -29,12 +29,12 @@ function drawCircleText(context, text, radius, startRotation) {
    for(let i = 0; i < text.length; i++){
       context.save();
       context.rotate(i * numRadsPerLetter);
-
       context.fillText(text[i], 0, -radius);
       context.restore();
    }
    context.restore();
 }
+
 function buildPlaylist(jsonValue) {
   const value = jsonValue;
   const playlist = document.querySelector('.list-songs');
@@ -67,21 +67,26 @@ function defineCoordinate() {
 function handlerDefineCurrentTimeSong() {
   console.log(defineCoordinate());
 }
+function startPage(canvas, context) {
+  const img = new Image();
+  img.src = 'assets/3.png';
+  context.drawImage(img, canvas.width-42, 20, 50, 180);
+  return img;
+}
+
 window.onload = function load() {
   fetchData();
   const canvas = document.querySelector('.canvas');
   const context = canvas.getContext('2d');
   context.save();
-  const img = new Image();
-  img.src = 'assets/3.png';
-  //context.translate(canvas.width, 0);
-  context.rotate(0);
-  context.drawImage(img, canvas.width - 42, 20, 50, 180);
+
+  const img = startPage(canvas, context);
 
   const audio = document.querySelector('.control');
   const listOfSongs = document.querySelector('.list-songs');
   const duration = document.querySelector('.duration');
   const currentTimeIndication = document.querySelector('.current-time');
+
   listOfSongs.addEventListener('click', ev => {
     if(ev.target === 'song' || 'singer' || 'song-item') {
       let {url, artist, song} = handlerChoiceSong(ev);
@@ -145,7 +150,7 @@ window.onload = function load() {
               context.drawImage(img, 0, 0, 50, 180);
               context.restore();
               count++;
-              angle += 0.4/audio.duration;
+              angle += 0.5/audio.duration;
               change = setTimeout(tick, 1000); 
               lastCurrentTime = audio.currentTime; 
             } else clearTimeout(change);
