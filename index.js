@@ -82,10 +82,10 @@ function drawDiskAndRunner(canvas, context, imgDisk, img) {
   context.restore();
 }
 
-function redrawDiskAndRunner(canvas, context, imgDisk, img, titleSong, angle) {
+function redrawDiskAndRunner(canvas, context, imgDisk, img, titleSong, angle, startPositionText) {
   context.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
   context.drawImage(imgDisk, 2, 10, 270, 270);
-  drawCircleText(context, titleSong, 30, 10);
+  drawCircleText(context, titleSong, 30, 10 + startPositionText * 0.08);
 
   context.save();
   context.translate(canvas.clientWidth - 42, 20);
@@ -135,22 +135,15 @@ window.onload = function load() {
       buttonPlay.addEventListener('click', (ev) => { 
         if(isFirstClick) {
           let angle = 0.1;
-          redrawDiskAndRunner(canvas, context, imgDisk, img, titleSong, angle);
+          let count = 1;
+          redrawDiskAndRunner(canvas, context, imgDisk, img, titleSong, angle, count);
           audio.play();
-
-          let count = 1; 
+ 
           let lastCurrentTime;
           let change = setTimeout(function tick(){
             if((audio.currentTime !== 0) & (lastCurrentTime !==  audio.currentTime)) {
-              context.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+              redrawDiskAndRunner(canvas, context, imgDisk, img, titleSong, angle, count);
               currentTimeIndication.textContent = ` ${Math.trunc(audio.currentTime / 60)}:${Math.floor(audio.currentTime % 60, 2)}`;
-              context.drawImage(imgDisk, 2, 10, 270, 270);
-              drawCircleText(context, titleSong, 30, 10 + count * 0.08);
-              context.save();
-              context.translate(canvas.clientWidth-42, 20);
-              context.rotate(angle);
-              context.drawImage(img, 0, 0, 50, 180);
-              context.restore();
               count++;
               angle += 0.5/audio.duration;
               change = setTimeout(tick, 1000); 
