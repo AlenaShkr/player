@@ -74,6 +74,26 @@ function startPage(canvas, context) {
   return img;
 }
 
+function drawDiskAndRunner(canvas, context, imgDisk, img) {
+  context.restore();
+  context.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);  
+  context.drawImage(imgDisk, 2, 10, 270, 270);
+  context.drawImage(img, canvas.width - 42, 20, 50, 180);
+  context.restore();
+}
+
+function redrawDiskAndRunner(canvas, context, imgDisk, img, titleSong, angle) {
+  context.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+  context.drawImage(imgDisk, 2, 10, 270, 270);
+  drawCircleText(context, titleSong, 30, 10);
+
+  context.save();
+  context.translate(canvas.clientWidth - 42, 20);
+  context.rotate(angle);
+  context.drawImage(img, 0, 0, 50, 180);
+  context.restore();
+}
+
 window.onload = function load() {
   fetchData();
   const canvas = document.querySelector('.canvas');
@@ -94,49 +114,31 @@ window.onload = function load() {
       audio.src = url;
       
       audio.onloadedmetadata = function() {
-                console.log(this.duration);
                 let durationInMinutes = ` ${Math.trunc(this.duration / 60)}:${Math.floor(this.duration % 60, 2)}  `; 
                 titleSong += durationInMinutes;
+
                 context.globalCompositeOperation = 'source-over';
                 context.fillStyle = 'silver';
-
                 context.font = "bold 10px Courier";
                 drawCircleText(context, titleSong, 30, 10);
+                
                 duration.textContent = durationInMinutes;
             };
-      context.restore();
-      context.globalCompositeOperation = 'destination-over';
       const imgDisk = new Image();
       imgDisk.src = 'assets/1.png';
-      context.drawImage(imgDisk, 2, 10, 270, 270);
-      context.save();
-      
+      drawDiskAndRunner(canvas, context, imgDisk, img);
 
-      // context.translate(canvas.clientWidth, 0);
-      // context.rotate(0);
-      // context.drawImage(img, -42, 20, 50, 180);
-      // context.rotate(0.5); max angle
-      // context.drawImage(img, -28, 25, 50, 180); 
-      context.restore();
       const buttonPlay = document.querySelector('.button-play');
       const buttonStop = document.querySelector('.button-stop');
       let isFirstClick = true;
       canvas.addEventListener('click', handlerDefineCurrentTimeSong);
       buttonPlay.addEventListener('click', (ev) => { 
         if(isFirstClick) {
-          context.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
-          context.drawImage(imgDisk, 2, 10, 270, 270);
-          drawCircleText(context, titleSong, 30, 10);
-
-          context.save();
-          context.translate(canvas.clientWidth-42, 20);
-          context.rotate(0.1);
-          context.drawImage(img, 0, 0, 50, 180);
-          context.restore();
-          
-          audio.play();
-          let count = 1; 
           let angle = 0.1;
+          redrawDiskAndRunner(canvas, context, imgDisk, img, titleSong, angle);
+          audio.play();
+
+          let count = 1; 
           let lastCurrentTime;
           let change = setTimeout(function tick(){
             if((audio.currentTime !== 0) & (lastCurrentTime !==  audio.currentTime)) {
@@ -163,14 +165,9 @@ window.onload = function load() {
       audio.pause(); 
       audio.currentTime = 0;
       isFirstClick = true;
-      context.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
-      context.drawImage(imgDisk, 2, 10, 270, 270);
-      drawCircleText(context, titleSong, 30, 10);
-      context.save();
-      context.translate(canvas.clientWidth, 0);
-      context.rotate(0);
-      context.drawImage(img, -42, 20, 50, 180);
-      context.restore();
+      angle = 0;
+      redrawDiskAndRunner(canvas, context, imgDisk, img, titleSong, angle);
+      currentTimeIndication.textContent = `0:00`;
     });
     }
   });
