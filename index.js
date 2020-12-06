@@ -131,11 +131,12 @@ window.onload = function load() {
       const buttonPlay = document.querySelector('.button-play');
       const buttonStop = document.querySelector('.button-stop');
       let isFirstClick = true;
+      let angle = 0;
+      let count = 1;
       canvas.addEventListener('click', handlerDefineCurrentTimeSong);
-      buttonPlay.addEventListener('click', (ev) => { 
+      angle = 0.1;
+      buttonPlay.addEventListener('click', (ev) => {
         if(isFirstClick) {
-          let angle = 0.1;
-          let count = 1;
           redrawDiskAndRunner(canvas, context, imgDisk, img, titleSong, angle, count);
           audio.play();
  
@@ -150,9 +151,12 @@ window.onload = function load() {
               lastCurrentTime = audio.currentTime; 
             } else clearTimeout(change);
           }, 1000);
-        } else audio.pause();
-
+        } else {
+          audio.pause();
+          redrawDiskAndRunner(canvas, context, imgDisk, img, titleSong, angle, count);
+        }
             isFirstClick = !isFirstClick;
+            
         });
       buttonStop.addEventListener('click', () => {
       audio.pause(); 
