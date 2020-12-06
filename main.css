@@ -49,11 +49,54 @@ body {
 .duration::before {
     content: '/';
 }
-
-.button-play,
-.button-stop {
+.button-container {
+    display: flex;
+    align-self: flex-start;
+    align-items: center;
     margin-bottom: 15px;
+    font-size: 12px;
 }
+
+.button-label {
+    color: silver;
+    text-shadow: black 1px 1px 1px;
+    margin-left: 5px;
+}
+
+.button-play {
+    width: 40px;
+    height: 40px;
+    background-image: url('./assets/Button.png');
+    background-size: cover;
+    overflow: hidden;
+    border-radius: 50%;
+    border: none;
+}
+
+.button-play:hover,
+.button-stop:hover {
+    border: darkblue 2px solid;
+}
+
+.button-stop {
+    width: 25px;
+    height: 25px;
+    background-image: url(./assets/Button.png);
+    background-size: 375%;
+    background-repeat: no-repeat;
+    background-position-x: 100%;
+    background-position-y: 53%;
+    overflow: hidden;
+    border-radius: 50%;
+    border: none;
+}
+
+button:active, button:focus {
+    outline: none;
+    border: red 2px solid;
+    border-radius: 50%;
+}
+
 .img {
     display: none;
 }
