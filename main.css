@@ -3,6 +3,7 @@ body {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    background-color: whitesmoke;
 }
 .wrapper {
     max-width: 1280px;
@@ -17,7 +18,7 @@ body {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-
+    box-shadow: 1px 1px 6px 1px  lightslategray;
 }
 
 .canvas {
@@ -35,14 +36,17 @@ body {
     background-position: 100%;
     background-size: cover;
 }
+
 .timer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 4rem;
     height: 2rem;
     margin-bottom: 15px;
     background-color: black;
     border-radius: 5px;
     color: chartreuse;
-    text-align: center;
     font-size: 12px;
 }
 
