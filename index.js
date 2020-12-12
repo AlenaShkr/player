@@ -139,7 +139,6 @@ window.onload = function load() {
         if(isFirstClick) {
           redrawDiskAndRunner(canvas, context, imgDisk, img, titleSong, angle, count);
           audio.play();
- 
           let lastCurrentTime;
           let change = setTimeout(function tick(){
             if((audio.currentTime !== 0) & (lastCurrentTime !==  audio.currentTime)) {
@@ -164,6 +163,7 @@ window.onload = function load() {
       isFirstClick = true;
       angle = 0;
       redrawDiskAndRunner(canvas, context, imgDisk, img, titleSong, angle);
+      angle = 0.1;
       currentTimeIndication.textContent = `0:00`;
     });
     }
