@@ -136,11 +136,11 @@ window.onload = function load() {
       let isFirstClick = true;
       let angle = 0;
       let count = 1;
-      canvas.addEventListener('click', () => {
-        audio.currentTime = handlerDefineCurrentTimeSong(audio)
-      });
       angle = 0.1;
       buttonPlay.addEventListener('click', (ev) => {
+        canvas.addEventListener('click', () => {
+          audio.currentTime = handlerDefineCurrentTimeSong(audio)
+        });
         if(isFirstClick) {
           redrawDiskAndRunner(canvas, context, imgDisk, img, titleSong, angle, count);
           audio.play();
