@@ -62,15 +62,18 @@ async function fetchData () {
 function defineCoordinate() {
   const x = window.event.layerX;
   const y = window.event.layerY;
-  return `${x}:${y}`;
+  return {x, y};
 }
-function handlerDefineCurrentTimeSong() {
-  console.log(defineCoordinate());
+function handlerDefineCurrentTimeSong(audio) {
+  const { x, y } = defineCoordinate();
+  let len = Math.sqrt(Math.pow((x - 137), 2) + Math.pow( y - 145, 2));
+  let currentTime = (130-len)*audio.duration/75;
+  return currentTime;
 }
 function startPage(canvas, context) {
   const img = new Image();
   img.src = 'assets/3.png';
-  context.drawImage(img, canvas.width-42, 20, 50, 180);
+  context.drawImage(img, canvas.width - 42, 20, 50, 180);
   return img;
 }
 
@@ -133,7 +136,9 @@ window.onload = function load() {
       let isFirstClick = true;
       let angle = 0;
       let count = 1;
-      canvas.addEventListener('click', handlerDefineCurrentTimeSong);
+      canvas.addEventListener('click', () => {
+        audio.currentTime = handlerDefineCurrentTimeSong(audio)
+      });
       angle = 0.1;
       buttonPlay.addEventListener('click', (ev) => {
         if(isFirstClick) {
