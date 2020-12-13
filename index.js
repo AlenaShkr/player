@@ -68,7 +68,9 @@ function handlerDefineCurrentTimeSong(audio) {
   const { x, y } = defineCoordinate();
   let len = Math.sqrt(Math.pow((x - 137), 2) + Math.pow( y - 145, 2));
   let currentTime = (130-len)*audio.duration/75;
-  return currentTime;
+  audio.currentTime = currentTime;
+  let angle = 0.5 * currentTime/audio.duration;
+  return angle;
 }
 function startPage(canvas, context) {
   const img = new Image();
@@ -139,7 +141,9 @@ window.onload = function load() {
       angle = 0.1;
       buttonPlay.addEventListener('click', (ev) => {
         canvas.addEventListener('click', () => {
-          audio.currentTime = handlerDefineCurrentTimeSong(audio)
+          angle = handlerDefineCurrentTimeSong(audio);
+          redrawDiskAndRunner(canvas, context, imgDisk, img, titleSong, angle, count);
+
         });
         if(isFirstClick) {
           redrawDiskAndRunner(canvas, context, imgDisk, img, titleSong, angle, count);
