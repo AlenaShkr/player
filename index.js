@@ -62,15 +62,20 @@ async function fetchData () {
 function defineCoordinate() {
   const x = window.event.layerX;
   const y = window.event.layerY;
-  return `${x}:${y}`;
+  return {x, y};
 }
-function handlerDefineCurrentTimeSong() {
-  console.log(defineCoordinate());
+function handlerDefineCurrentTimeSong(audio) {
+  const { x, y } = defineCoordinate();
+  let len = Math.sqrt(Math.pow((x - 137), 2) + Math.pow( y - 145, 2));
+  let currentTime = (130-len)*audio.duration/75;
+  audio.currentTime = currentTime;
+  let angle = 0.5 * currentTime/audio.duration;
+  return angle;
 }
 function startPage(canvas, context) {
   const img = new Image();
   img.src = 'assets/3.png';
-  context.drawImage(img, canvas.width-42, 20, 50, 180);
+  context.drawImage(img, canvas.width - 42, 20, 50, 180);
   return img;
 }
 
@@ -133,13 +138,16 @@ window.onload = function load() {
       let isFirstClick = true;
       let angle = 0;
       let count = 1;
-      canvas.addEventListener('click', handlerDefineCurrentTimeSong);
       angle = 0.1;
       buttonPlay.addEventListener('click', (ev) => {
+        canvas.addEventListener('click', () => {
+          angle = handlerDefineCurrentTimeSong(audio);
+          redrawDiskAndRunner(canvas, context, imgDisk, img, titleSong, angle, count);
+
+        });
         if(isFirstClick) {
           redrawDiskAndRunner(canvas, context, imgDisk, img, titleSong, angle, count);
           audio.play();
- 
           let lastCurrentTime;
           let change = setTimeout(function tick(){
             if((audio.currentTime !== 0) & (lastCurrentTime !==  audio.currentTime)) {
@@ -164,6 +172,7 @@ window.onload = function load() {
       isFirstClick = true;
       angle = 0;
       redrawDiskAndRunner(canvas, context, imgDisk, img, titleSong, angle);
+      angle = 0.1;
       currentTimeIndication.textContent = `0:00`;
     });
     }
