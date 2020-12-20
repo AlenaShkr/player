@@ -175,7 +175,7 @@ window.onload = function load() {
       angle = 0;
       redrawDiskAndRunner(canvas, context, imgDisk, img, titleSong, angle);
       angle = 0.1;
-      currentTimeIndication.textContent = `0:00`;
+      currentTimeIndication.textContent = `--:--`;
     });
     }
   });
