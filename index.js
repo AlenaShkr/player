@@ -102,6 +102,14 @@ function redrawDiskAndRunner(canvas, context, imgDisk, img, titleSong, angle, st
   context.restore();
 }
 
+transformTime = (duration) => {
+  let minutes = Math.trunc(duration / 60);
+  let partMinutes = `${Math.trunc(minutes / 10)}${minutes % 10}`;
+  let seconds = Math.floor(duration % 60, 2);
+  let partSeconds =  `${Math.trunc(seconds / 10)}${seconds % 10}`;
+  return partMinutes + ':' + partSeconds;
+}
+
 window.onload = function load() {
   fetchData();
   const canvas = document.querySelector('.canvas');
@@ -122,7 +130,7 @@ window.onload = function load() {
       audio.src = url;
       
       audio.onloadedmetadata = function() {
-                let durationInMinutes = ` ${Math.trunc(this.duration / 60)}:${Math.floor(this.duration % 60, 2)}  `; 
+                let durationInMinutes = ' ' + transformTime(this.duration) + `  `; 
                 titleSong += durationInMinutes;
 
                 context.globalCompositeOperation = 'source-over';
@@ -154,7 +162,7 @@ window.onload = function load() {
           let change = setTimeout(function tick(){
             if((audio.currentTime !== 0) & (lastCurrentTime !==  audio.currentTime)) {
               redrawDiskAndRunner(canvas, context, imgDisk, img, titleSong, angle, count);
-              currentTimeIndication.textContent = ` ${Math.trunc(audio.currentTime / 60)}:${Math.floor(audio.currentTime % 60, 2)}`;
+              currentTimeIndication.textContent = transformTime(audio.currentTime);
               count++;
               angle += 0.5/audio.duration;
               change = setTimeout(tick, 1000); 
